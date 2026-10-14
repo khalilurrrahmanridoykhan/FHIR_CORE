@@ -37,6 +37,17 @@ No real patient data is used anywhere in this repo.
 
 Each exercise's HTTP calls are also available as a [Bruno](https://www.usebruno.com) collection under [`bruno/`](bruno) -- open that folder in the Bruno app, select the **Sandbox** environment, and run requests without writing any code first. See [`bruno/README.md`](bruno/README.md) for details.
 
+## What's next
+
+Project ideas that build directly on these eight exercises, roughly ordered from closest-to-this-curriculum to more ambitious:
+
+1. **A mini FHIR profile validator** -- take any resource plus a StructureDefinition JSON and report which required fields are missing. Extends step 7's `min >= 1` check into something reusable instead of a hardcoded list.
+2. **Extend a mapping tool to a second resource type** -- e.g. `Observation` (lab results) alongside `Immunization`. Forces reading a new profile and handling a different value shape (`valueQuantity`/`valueCodeableConcept` instead of `vaccineCode`).
+3. **A FHIR -> DHIS2 aggregate pipeline** -- fetch a batch of resources, count them by category and period, and push totals to DHIS2's Aggregate API (`dataValueSets`) instead of the Tracker API. A genuinely different DHIS2 data model (aggregate vs. individual-level).
+4. **A real SMART on FHIR login flow** -- use a public launcher (e.g. [launch.smarthealthit.org](https://launch.smarthealthit.org)) to build the actual OAuth2 redirect -> token exchange -> authenticated call. Nothing in this curriculum implements auth; this closes that gap.
+5. **A national-IG conformance checker** -- combine #1 with any country's published IG (fetch its StructureDefinition, validate a sample resource against it).
+6. **A minimal FHIR server from scratch** -- implement just `Patient` (`GET`/`POST`/search returning a proper `Bundle`) in a small HTTP server. Everything above is the client side; this is the server side.
+
 ## License
 
 MIT -- see [LICENSE](LICENSE).
