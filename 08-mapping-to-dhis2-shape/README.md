@@ -1,8 +1,8 @@
-# ধাপ ৮: FHIR resource থেকে DHIS2-এর মতো shape-এ ম্যাপ করা
+# Step 8: Mapping a FHIR resource into a DHIS2-like shape
 
 ## Concept
 
-এখন পর্যন্ত যা শিখেছেন (resource পড়া, search, pagination, reference, extension, profile) -- সবকিছুর শেষ গন্তব্য এটাই: একটা FHIR resource-কে একটা ভিন্ন সিস্টেমের ডেটা মডেলে রূপান্তর করা। DHIS2-এর Tracker Event-এর shape মূলত এরকম:
+Everything learned so far (reading resources, search, pagination, references, extensions, profiles) leads here: turning a FHIR resource into a different system's data model. DHIS2's Tracker Event shape looks roughly like this:
 
 ```json
 {
@@ -17,30 +17,30 @@
 }
 ```
 
-লক্ষ্য করুন -- FHIR-এর `vaccineCode.coding[0].code` কে DHIS2-এর একটা flat `dataValues` entry-তে রূপান্তর করা হয়েছে। এই রূপান্তরটাই "mapping" -- ঠিক আপনার mapping-studio অ্যাপ যা ব্যবহারকারীকে interactively করতে দেয়।
+Notice -- FHIR's `vaccineCode.coding[0].code` is turned into a flat `dataValues` entry on the DHIS2 side. This transformation is "mapping" -- exactly what your mapping-studio app lets a user do interactively.
 
-## কাজ
+## Task
 
-`exercise.mjs`-এ একটা sample FHIR Immunization resource এবং একটা mapping config দেওয়া আছে (কোন FHIR path কোন DHIS2 dataElement-এ যাবে)। TODO পূরণ করুন:
-1. `vaccineCode.coding[0].code` থেকে ভ্যালু নিয়ে একটা dataValue বানান
-2. `status` থেকে ভ্যালু নিয়ে আরেকটা dataValue বানান
-3. `occurrenceDateTime` থেকে `occurredAt` বানান
-4. সবকিছু একটা সম্পূর্ণ DHIS2 event object-এ জোড়া দিন, প্রিন্ট করুন
+`exercise.mjs` provides a sample FHIR Immunization resource and a mapping config (which FHIR path maps to which DHIS2 dataElement). Fill in the TODOs:
+1. Build a dataValue using the value from `vaccineCode.coding[0].code`
+2. Build another dataValue using the value from `status`
+3. Build `occurredAt` from `occurrenceDateTime`
+4. Combine everything into a full DHIS2 event object and print it
 
-## এটাই আসলে পুরো journey-র সারাংশ
+## This is really the summary of the whole journey
 
 ```
-FHIR সার্ভার থেকে fetch (ধাপ ১-৩)
+Fetch from a FHIR server (steps 1-3)
         ↓
-reference/extension পড়ে পুরো প্রসঙ্গ বোঝা (ধাপ ৪-৫)
+Read references/extensions to understand full context (steps 4-5)
         ↓
-profile দিয়ে কোন ফিল্ড লাগবে বোঝা (ধাপ ৭)
+Use a profile to know which fields are needed (step 7)
         ↓
-DHIS2-এর shape-এ ম্যাপ করা (এই ধাপ)
+Map into DHIS2's shape (this step)
         ↓
-POST করে DHIS2-এ লেখা (আপনার আসল অ্যাপ যা করে)
+POST to write it into DHIS2 (what your real app does)
 ```
 
-## প্রজেক্টের সাথে সংযোগ
+## Connection to your own project
 
-এটাই ঠিক আপনার `dhis2-fhir-mapping-studio/src/write/buildTrackerEventPayload.ts` এবং `dhis2-fhir-sync-console`-এর `mapFhirImmunizationToVisit()`-এর কাজ। এই ধাপ শেষ করার পর ওই দুটো ফাইল খুলে পড়ুন -- এখন কোডটা অনেক বেশি পরিচিত লাগবে।
+This is exactly the job of your `dhis2-fhir-mapping-studio/src/write/buildTrackerEventPayload.ts` and `dhis2-fhir-sync-console`'s `mapFhirImmunizationToVisit()`. After finishing this step, open those two files -- the code should feel a lot more familiar now.

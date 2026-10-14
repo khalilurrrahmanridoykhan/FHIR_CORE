@@ -1,21 +1,21 @@
-# ধাপ ২: Search ও filter
+# Step 2: Search and filter
 
 ## Concept
 
-একটা নির্দিষ্ট `id` সবসময় জানা থাকে না -- বেশিরভাগ সময় আপনি শর্ত দিয়ে resource খুঁজবেন। এটাই **search**:
+You don't always know a specific `id` -- most of the time you'll look for resources by condition. That's **search**:
 
 ```
 GET /{resourceType}?{parameter}={value}
 ```
 
-সার্চের রেজাল্ট সবসময় একটা **Bundle** (type: `searchset`) হয়ে ফেরত আসে, কখনো সরাসরি resource না -- এর ভেতরে `entry` array-এ একাধিক resource থাকে।
+A search result always comes back as a **Bundle** (type: `searchset`), never a resource directly -- it holds multiple resources inside an `entry` array.
 
-## গুরুত্বপূর্ণ parameter
+## Important parameters
 
-- `_count` -- এক পেজে কতগুলো ফেরত দেবে (ডিফল্ট সার্ভার-ভেদে ভিন্ন, নিজে বেঁধে দেওয়া ভালো)
-- resource-নির্দিষ্ট parameter -- যেমন `Immunization?patient=123`, `Patient?name=smith`
+- `_count` -- how many to return per page (the default varies by server, so it's good practice to set your own)
+- resource-specific parameters -- e.g. `Immunization?patient=123`, `Patient?name=smith`
 
-## Bundle-এর গঠন
+## Shape of a Bundle
 
 ```json
 {
@@ -28,14 +28,14 @@ GET /{resourceType}?{parameter}={value}
 }
 ```
 
-আসল resource গুলো `entry[i].resource`-এর ভেতরে, `entry[i]`-এ সরাসরি না -- এটা একটা সাধারণ ভুল যেখানে অনেকে প্রথমবার আটকায়।
+The actual resources live inside `entry[i].resource`, not directly on `entry[i]` -- this is a common trip-up the first time around.
 
-## কাজ
+## Task
 
-`exercise.mjs`-এ:
-1. SMART Health IT সার্ভার থেকে `Immunization` resource সার্চ করুন, `_count=5`
-2. `entry` array-এর প্রতিটা resource থেকে `vaccineCode` এবং `occurrenceDateTime` প্রিন্ট করুন
+In `exercise.mjs`:
+1. Search for `Immunization` resources on the SMART Health IT server, `_count=5`
+2. Print `vaccineCode` and `occurrenceDateTime` from every resource in the `entry` array
 
-## প্রজেক্টের সাথে সংযোগ
+## Connection to your own project
 
-আপনার `dhis2-fhir-sync-console/src/lib/fhirRouteFetch.ts`-এ ঠিক এই সার্চ কলটাই হয়, শুধু সরাসরি না -- DHIS2 Route-এর মাধ্যমে প্রক্সি করে।
+Your `dhis2-fhir-sync-console/src/lib/fhirRouteFetch.ts` makes exactly this same search call, just not directly -- it's proxied through a DHIS2 Route.

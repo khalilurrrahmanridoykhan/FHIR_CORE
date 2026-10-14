@@ -1,35 +1,35 @@
-# ধাপ ১: প্রথম FHIR fetch
+# Step 1: First FHIR fetch
 
 ## Concept
 
-একটা FHIR resource হলো একটা JSON object। সবচেয়ে সহজ অপারেশন হলো একটা নির্দিষ্ট `id`-এর resource সরাসরি পড়া:
+A FHIR resource is a JSON object. The simplest operation is reading a resource with a specific `id` directly:
 
 ```
 GET /{resourceType}/{id}
 ```
 
-যেমন `GET /Patient/123` মানে `Patient` resource-এর মধ্যে যার `id` হলো `123`, তাকে ফেরত দাও।
+For example `GET /Patient/123` means "give me back the `Patient` resource whose `id` is `123`".
 
-## লক্ষ্য করার মতো ফিল্ড
+## Fields worth noticing
 
-প্রতিটা resource-এ থাকে:
-- `resourceType` -- এটা কী ধরনের resource (`"Patient"`, `"Immunization"` ইত্যাদি)
-- `id` -- এই resource-এর নিজের identifier
-- বাকি ফিল্ড resource-type-নির্দিষ্ট (Patient-এ `name`, `birthDate`; Immunization-এ `vaccineCode`, `occurrenceDateTime`)
+Every resource has:
+- `resourceType` -- what kind of resource this is (`"Patient"`, `"Immunization"`, etc.)
+- `id` -- this resource's own identifier
+- the rest of the fields are resource-type-specific (`name`, `birthDate` on Patient; `vaccineCode`, `occurrenceDateTime` on Immunization)
 
-## কাজ
+## Task
 
-`exercise.mjs`-এ TODO পূরণ করুন:
-1. HAPI পাবলিক সার্ভার থেকে `Patient` resource (id: `36149`, নাম Robert Smith) fetch করুন
-2. `resourceType`, `id`, এবং নাম (`name` array-এর প্রথম entry) প্রিন্ট করুন
+Fill in the TODOs in `exercise.mjs`:
+1. Fetch the `Patient` resource (id: `36149`, named Robert Smith) from the HAPI public server
+2. Print `resourceType`, `id`, and the name (the first entry of the `name` array)
 
-**নোট:** এটা একটা পাবলিক community sandbox -- কখনো কখনো পুরনো test data মুছে যায়। `Patient/36149` কাজ না করলে, ব্রাউজারে
-`https://hapi.fhir.org/baseR4/Patient?name=smith&_count=1` খুলে অন্য একটা `id` বের করে নিন, কোডে বদলে দিন।
+**Note:** this is a public community sandbox -- old test data sometimes gets cleared out. If `Patient/36149` doesn't work, open
+`https://hapi.fhir.org/baseR4/Patient?name=smith&_count=1` in a browser, grab a different `id`, and swap it into the code.
 
-## চালানো
+## Running
 
 ```bash
 node exercise.mjs
 ```
 
-সমাধান এই রিপোতে প্রকাশ করা হয়নি -- নিজে চেষ্টা করুন, বা আটকে গেলে [FHIR spec-এর Resource পরিচিতি](https://hl7.org/fhir/resource.html) দেখুন।
+The solution isn't published in this repo -- try it yourself, or if you get stuck, see [the FHIR spec's Resource overview](https://hl7.org/fhir/resource.html).

@@ -1,36 +1,36 @@
-# Bruno কালেকশন -- ইন্টারেক্টিভ টেস্টিং
+# Bruno collection -- interactive testing
 
-প্রতিটা exercise-এর HTTP কল এখানে [Bruno](https://www.usebruno.com) রিকোয়েস্ট হিসেবে আছে -- কোনো কোড না লিখে, বাটনে ক্লিক করে response দেখতে পারবেন। কোড দিয়ে বুঝতে কষ্ট হলে, আগে Bruno-তে চালিয়ে response-টা চোখে দেখে নিন, তারপর `exercise.mjs`-এ কোড লিখুন -- একই জিনিস, দুইভাবে দেখা।
+Every exercise's HTTP call is also available here as a [Bruno](https://www.usebruno.com) request -- see the response by clicking a button, without writing any code. If something's hard to follow from the code alone, run it in Bruno first to see the response with your own eyes, then write the code in `exercise.mjs` -- the same thing, seen two ways.
 
-## Install করা
+## Installing
 
-[usebruno.com/downloads](https://www.usebruno.com/downloads) থেকে ফ্রি ডেস্কটপ অ্যাপ নামান (Mac/Windows/Linux)।
+Download the free desktop app (Mac/Windows/Linux) from [usebruno.com/downloads](https://www.usebruno.com/downloads).
 
-## কালেকশন খোলা
+## Opening the collection
 
-1. Bruno খুলুন -- "Open Collection" চাপুন
-2. এই রিপোর মধ্যে `bruno/` ফোল্ডারটা সিলেক্ট করুন
-3. ডান পাশের উপরে environment dropdown থেকে **"Sandbox"** সিলেক্ট করুন (এটা `hapiBaseUrl`/`smartBaseUrl` variable সেট করে -- environment সিলেক্ট না করলে URL খালি থাকবে)
+1. Open Bruno -- click "Open Collection"
+2. Select the `bruno/` folder inside this repo
+3. From the environment dropdown in the top right, select **"Sandbox"** (this sets the `hapiBaseUrl`/`smartBaseUrl` variables -- without selecting an environment, the URLs will be empty)
 
-## ফোল্ডার গঠন
+## Folder layout
 
-exercise-এর নম্বর অনুযায়ী ফোল্ডার সাজানো -- `exercise.mjs`-এর সাথে এক নম্বরের ফোল্ডার মিলিয়ে দেখুন।
+Folders are numbered to match the exercises -- match each folder's number to the corresponding `exercise.mjs`.
 
-| ফোল্ডার | কী আছে |
+| Folder | What's there |
 |---|---|
-| `01-first-fetch` | একটা single GET |
-| `02-search-and-filter` | একটা search GET |
-| `03-pagination` | দুইটা রিকোয়েস্ট, ক্রমে চালাতে হবে (১ → ২) |
-| `04-references` | দুইটা রিকোয়েস্ট, ক্রমে চালাতে হবে (১ → ২) |
-| `06-create-resource` | তিনটা রিকোয়েস্ট, ক্রমে চালাতে হবে (১ → ২ → ৩) |
-| `07-read-a-profile` | একটা single GET (WHO IG থেকে সরাসরি) |
+| `01-first-fetch` | A single GET |
+| `02-search-and-filter` | A search GET |
+| `03-pagination` | Two requests, run in order (1 -> 2) |
+| `04-references` | Two requests, run in order (1 -> 2) |
+| `06-create-resource` | Three requests, run in order (1 -> 2 -> 3) |
+| `07-read-a-profile` | A single GET (directly from the WHO IG) |
 
-`05-extensions` আর `08-mapping-to-dhis2-shape`-এ কোনো নেটওয়ার্ক কল নেই (শুধু local ডেটা নিয়ে কাজ), তাই এখানে কোনো রিকোয়েস্ট নেই।
+`05-extensions` and `08-mapping-to-dhis2-shape` make no network calls (they only work with local data), so there are no requests for them here.
 
-## যে রিকোয়েস্টগুলো ক্রমে চালাতে হয়, সেগুলো কিভাবে কাজ করে
+## How the ordered requests work
 
-কিছু রিকোয়েস্ট আগের রিকোয়েস্টের response থেকে একটা মান (যেমন একটা তৈরি হওয়া resource-এর `id`) মনে রেখে পরের রিকোয়েস্টে ব্যবহার করে -- এটা Bruno-র **"script:post-response"** অংশে লেখা থাকে, যা `bru.setVar(...)` দিয়ে একটা variable সেভ করে। প্রতিটা রিকোয়েস্টের "Docs" ট্যাবে এটা ব্যাখ্যা করা আছে, এবং ফাইলের নামে নম্বর দেওয়া আছে (`1-...`, `2-...`) কোন ক্রমে চালাতে হবে বোঝানোর জন্য।
+Some requests remember a value from the previous request's response (such as a newly created resource's `id`) and use it in the next request -- this is written in Bruno's **"script:post-response"** section, which saves a variable with `bru.setVar(...)`. Each request's "Docs" tab explains this, and the filenames are numbered (`1-...`, `2-...`) to show the order to run them in.
 
-## সতর্কতা
+## A warning
 
-`06-create-resource`-এর রিকোয়েস্টগুলো **সত্যিকারের write অপারেশন** -- এটা পাবলিক `hapi.fhir.org` sandbox-এ আসলেই একটা test Patient তৈরি করে। তৃতীয় রিকোয়েস্ট (Delete) সবসময় চালিয়ে পরিষ্কার করে দিন।
+The requests in `06-create-resource` are **real write operations** -- they genuinely create a test Patient on the public `hapi.fhir.org` sandbox. Always run the third request (Delete) to clean up afterward.

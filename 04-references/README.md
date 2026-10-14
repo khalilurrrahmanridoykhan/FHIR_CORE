@@ -1,8 +1,8 @@
-# ধাপ ৪: Reference resolve করা
+# Step 4: Resolving a reference
 
 ## Concept
 
-আগে বলেছিলাম -- একটা resource অন্য resource-কে সরাসরি embed করে না, বরং **reference** করে:
+As mentioned earlier -- a resource doesn't embed another resource directly, it **references** it:
 
 ```json
 {
@@ -11,22 +11,22 @@
 }
 ```
 
-`patient.reference`-এর মান হলো `"{resourceType}/{id}"` ফরম্যাটে একটা string। এটা resolve করতে হলে সেটাকে ভেঙে একটা সাধারণ `GET` কল করতে হয়:
+`patient.reference`'s value is a string in `"{resourceType}/{id}"` format. To resolve it, you split that string apart and make a plain `GET` call:
 
 ```
 GET /{resourceType}/{id}
 ```
 
-FHIR নিজে থেকে "join" করে দেয় না (যেমন SQL করে) -- এটা আপনাকে নিজে, একটা আলাদা API কলে করতে হয়।
+FHIR never "joins" this for you (the way SQL does) -- you have to do it yourself, as a separate API call.
 
-## কাজ
+## Task
 
-`exercise.mjs`-এ:
-1. একটা Immunization resource fetch করুন (search করে প্রথমটা নিন, `_count=1`)
-2. তার `patient.reference` ফিল্ড থেকে string বের করুন (যেমন `"Patient/abc123"`)
-3. সেটা `/` দিয়ে split করে resourceType আর id আলাদা করুন
-4. তারপর সেই id দিয়ে আসল Patient resource fetch করুন, তার নাম প্রিন্ট করুন
+In `exercise.mjs`:
+1. Fetch an Immunization resource (search and take the first one, `_count=1`)
+2. Pull the string out of its `patient.reference` field (e.g. `"Patient/abc123"`)
+3. Split it on `/` to separate resourceType and id
+4. Then fetch the actual Patient resource using that id, and print its name
 
-## প্রজেক্টের সাথে সংযোগ
+## Connection to your own project
 
-এই একই reference-parsing ধারণা আপনার mapping-studio-তে `patient` ফিল্ড হ্যান্ডলিংয়ে ব্যবহৃত হয় -- `src/write/buildTrackerEventPayload.ts` দেখুন।
+This same reference-parsing idea is used for handling the `patient` field in your mapping-studio -- see `src/write/buildTrackerEventPayload.ts`.

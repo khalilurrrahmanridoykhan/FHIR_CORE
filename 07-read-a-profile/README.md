@@ -1,28 +1,28 @@
-# ধাপ ৭: একটা Profile (StructureDefinition) পড়া
+# Step 7: Reading a Profile (StructureDefinition)
 
 ## Concept
 
-একটা **Profile** নিজেও একটা FHIR resource -- টাইপ `StructureDefinition`। এর ভেতরে `differential.element` নামের একটা array থাকে, যেখানে প্রতিটা entry বলে দেয়:
+A **Profile** is itself a FHIR resource -- of type `StructureDefinition`. It contains an array called `differential.element`, where each entry states:
 
-- `path` -- কোন ফিল্ড (যেমন `Immunization.vaccineCode`)
-- `min`/`max` -- cardinality (`min: 1, max: "1"` মানে required, ঠিক একবার)
+- `path` -- which field (e.g. `Immunization.vaccineCode`)
+- `min`/`max` -- cardinality (`min: 1, max: "1"` means required, exactly once)
 
-এটাই সেই জিনিস যা আপনার `immunizationIgFields.ts`-এ হাতে লেখা আছে -- কিন্তু আসলে এটা IG-র নিজের machine-readable JSON থেকে সরাসরি পড়া সম্ভব।
+This is the same thing that's hand-written in your `immunizationIgFields.ts` -- except it's actually possible to read it directly from the IG's own machine-readable JSON.
 
-## কাজ
+## Task
 
-`exercise.mjs`-এ WHO Immunization IG-এর real profile JSON থেকে একটা ছোট, বাস্তব অংশ দেওয়া আছে (`differential.element` অ্যারের একটা উদাহরণ)। TODO পূরণ করুন:
-1. প্রতিটা element-এ `min >= 1` হলে সেটা required ধরে নিন
-2. সব required path-এর একটা লিস্ট প্রিন্ট করুন
+`exercise.mjs` provides a small, real slice from the WHO Immunization IG's real profile JSON (an example from the `differential.element` array). Fill in the TODOs:
+1. Treat any element with `min >= 1` as required
+2. Print a list of all required paths
 
-## বাস্তব সার্ভার থেকে profile আনতে চাইলে
+## If you want to fetch the profile from the real server
 
 ```bash
 curl -s "https://worldhealthorganization.github.io/smart-immunizations/StructureDefinition-IMMZ.Immunization.json" | head -c 500
 ```
 
-এটাই সেই উৎস যা `immunizationIgFields.ts`-এর কমেন্টে উল্লেখ আছে।
+This is the exact source referenced in `immunizationIgFields.ts`'s own comment.
 
-## প্রজেক্টের সাথে সংযোগ
+## Connection to your own project
 
-`dhis2-fhir-mapping-studio/src/fhir/immunizationIgFields.ts` খুলে দেখুন -- এটা এই একই ধরনের element তথ্য (path, cardinality, required) হাতে টাইপ করে রেখেছে, যাতে অ্যাপ প্রতিবার লাইভ IG থেকে fetch না করে।
+Open `dhis2-fhir-mapping-studio/src/fhir/immunizationIgFields.ts` -- it has this same kind of element data (path, cardinality, required) hand-typed, so the app doesn't have to fetch the live IG every time.

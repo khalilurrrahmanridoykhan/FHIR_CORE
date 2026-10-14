@@ -1,29 +1,29 @@
-# ধাপ ৬: Create, read-back, delete (write operation)
+# Step 6: Create, read-back, delete (a write operation)
 
 ## Concept
 
-এতক্ষণ শুধু পড়া (`GET`) হয়েছে। এখন লেখা শিখব:
+So far we've only read (`GET`). Now let's learn to write:
 
 ```
-POST /{resourceType}        -- নতুন resource তৈরি (id সার্ভার দেয়)
-GET  /{resourceType}/{id}   -- তৈরি হওয়া resource পড়ে নিশ্চিত হওয়া
-DELETE /{resourceType}/{id} -- পরিষ্কার করা (টেস্ট সার্ভারে ভদ্রতা)
+POST /{resourceType}        -- create a new resource (the server assigns the id)
+GET  /{resourceType}/{id}   -- read the created resource back to confirm
+DELETE /{resourceType}/{id} -- clean up (courtesy on a test server)
 ```
 
-`POST`-এর response-এ তৈরি resource-টা ফেরত আসে, যার মধ্যে সার্ভার-দেওয়া `id` থাকে -- এটা মনে রাখতে হবে, কারণ পরের read/delete কলে এই id লাগবে।
+The `POST` response gives back the created resource, including the server-assigned `id` -- remember it, because the next read/delete calls need it.
 
-## নিয়মাবলী -- এটা একটা সত্যিকারের, শেয়ার করা পাবলিক সার্ভার
+## Ground rules -- this is a real, shared public server
 
-`hapi.fhir.org` সবার জন্য উন্মুক্ত একটা community test server -- সত্যিকারের ব্যক্তির ডেটা এখানে রাখা উচিত না, এবং তৈরি করা টেস্ট ডেটা পরে পরিষ্কার করা ভদ্রতা (ঠিক আপনার নিজের প্রজেক্টের README-এ যেমন লেখা আছে -- "TEST"/"verification" নামে ডেটা তৈরি করে পরে সব মুছে ফেলা হয়েছিল)।
+`hapi.fhir.org` is a community test server open to everyone -- no real person's data belongs here, and cleaning up test data afterward is good etiquette (just like your own project's README describes -- data was created under clearly-labeled "TEST"/"verification" names and fully deleted afterward).
 
-## কাজ
+## Task
 
-`exercise.mjs`-এ:
-1. একটা টেস্ট `Patient` object বানান (নামে `"TEST - FHIR Learning"` লিখুন, যাতে চেনা যায় এটা টেস্ট ডেটা)
-2. `POST`-এর মাধ্যমে তৈরি করুন, response থেকে নতুন `id` বের করুন
-3. সেই `id` দিয়ে `GET` করে resource-টা আবার পড়ুন, নিশ্চিত করুন নামটা ঠিক আছে
-4. `DELETE` করে পরিষ্কার করুন
+In `exercise.mjs`:
+1. Build a test `Patient` object (name it `"TEST - FHIR Learning"` so it's recognizable as test data)
+2. Create it via `POST`, and pull the new `id` out of the response
+3. `GET` it back using that `id`, and confirm the name is correct
+4. `DELETE` it to clean up
 
-## প্রজেক্টের সাথে সংযোগ
+## Connection to your own project
 
-আপনার `dhis2-fhir-sync-console` README-এর "Live-verified against a real DHIS2 instance" অংশে ঠিক এই প্যাটার্নটাই ব্যাখ্যা করা আছে -- টেস্ট ডেটা তৈরি, verify, এবং পরিষ্কার করা।
+Your `dhis2-fhir-sync-console` README's "Live-verified against a real DHIS2 instance" section describes exactly this pattern -- creating test data, verifying it, and cleaning it up.

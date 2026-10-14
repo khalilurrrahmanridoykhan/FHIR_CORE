@@ -1,8 +1,8 @@
-# ধাপ ৩: Pagination (Bundle-এর `next` link ফলো করা)
+# Step 3: Pagination (following a Bundle's `next` link)
 
 ## Concept
 
-একটা সার্চে যদি অনেক resource মিলে যায় (যেমন হাজার হাজার Immunization), সার্ভার একবারে সব পাঠায় না -- পেজ ভাগ করে পাঠায়। প্রতিটা Bundle-এর `link` array-এ একটা `relation: "next"` entry থাকে, যদি আরও পেজ থাকে:
+If a search matches a lot of resources (thousands of Immunizations, say), the server doesn't send them all at once -- it splits them into pages. Every Bundle's `link` array has a `relation: "next"` entry if more pages exist:
 
 ```json
 {
@@ -13,22 +13,22 @@
 }
 ```
 
-পরের পেজ পেতে এই `next` URL-এ সরাসরি `GET` করতে হবে -- নতুন কোনো parameter নিজে যোগ করার দরকার নেই, URL-টা already সম্পূর্ণ।
+To get the next page, `GET` that `next` URL directly -- no need to add any parameters yourself, the URL is already complete.
 
-## আসল bug, যা আপনার নিজের প্রজেক্টে ধরা পড়েছিল
+## A real bug this caught in your own project
 
-আপনার `dhis2-fhir-sync-console` README-এ লেখা আছে -- HAPI সার্ভারের `next` link-এর কোনো resource-type path থাকে না (`.../baseR4?_getpages=...`, `.../baseR4/Immunization?...` না)। ভুল কোড এই খালি path-কে "আর পেজ নেই" ধরে নিয়ে থেমে যেত।
+Your `dhis2-fhir-sync-console` README documents this: HAPI's `next` link carries no resource-type path at all (`.../baseR4?_getpages=...`, not `.../baseR4/Immunization?...`). Buggy code treated that empty path as "no more pages" and stopped.
 
-**সঠিক নিয়ম:** "আরও পেজ আছে কিনা" বোঝার জন্য `next` link-এর **presence** (অস্তিত্ব) চেক করুন, URL-এর path কেমন দেখতে তার উপর নির্ভর করবেন না।
+**The correct rule:** check for the **presence** of a `next` link to know if more pages exist -- don't rely on what the URL's path looks like.
 
-## কাজ
+## Task
 
-`exercise.mjs`-এ:
-1. `_count=2` দিয়ে Immunization সার্চ করুন (ইচ্ছাকৃতভাবে ছোট পেজ, যাতে একাধিক পেজ লাগে)
-2. একটা loop লিখুন: যতক্ষণ Bundle-এ `next` link আছে, সেই URL fetch করুন
-3. মোট কতগুলো resource (সব পেজ মিলিয়ে) পেলেন সেটা প্রিন্ট করুন
-4. নিরাপত্তার জন্য সর্বোচ্চ ৫ পেজ পর্যন্ত থামুন (একটা infinite loop guard)
+In `exercise.mjs`:
+1. Search Immunization with `_count=2` (a deliberately small page, so multiple pages are needed)
+2. Write a loop: while the Bundle has a `next` link, fetch that URL
+3. Print the total number of resources collected across all pages
+4. Stop after at most 5 pages as a safety net (an infinite-loop guard)
 
-## প্রজেক্টের সাথে সংযোগ
+## Connection to your own project
 
-এই exact logic আপনার `dhis2-fhir-sync-console/src/lib/fhirRouteFetch.ts`-এ আছে, আর এই bug-টার regression test আছে `fhirRouteFetch.test.ts`-এ।
+This exact logic lives in your `dhis2-fhir-sync-console/src/lib/fhirRouteFetch.ts`, and there's a regression test for this bug in `fhirRouteFetch.test.ts`.
