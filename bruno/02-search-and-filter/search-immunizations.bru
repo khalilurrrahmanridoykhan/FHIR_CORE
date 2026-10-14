@@ -1,0 +1,20 @@
+meta {
+  name: Search Immunizations
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{smartBaseUrl}}/Immunization?_count=5
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+docs {
+  ধাপ ২ -- response-এর resourceType লক্ষ্য করুন: এটা "Bundle", সরাসরি "Immunization" না।
+  entry[] array-এর প্রতিটা item-এর ভেতরে .resource-এ আসল Immunization resource আছে।
+}

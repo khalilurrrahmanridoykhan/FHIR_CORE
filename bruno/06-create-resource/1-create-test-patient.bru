@@ -1,0 +1,33 @@
+meta {
+  name: Create Test Patient
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{hapiBaseUrl}}/Patient
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/fhir+json
+}
+
+body:json {
+  {
+    "resourceType": "Patient",
+    "name": [{ "use": "official", "family": "FHIR Learning", "given": ["TEST -"] }],
+    "gender": "unknown"
+  }
+}
+
+script:post-response {
+  bru.setVar("createdPatientId", res.body.id);
+}
+
+docs {
+  এটা একটা সত্যিকারের POST, পাবলিক sandbox-এ একটা নতুন Patient তৈরি করে।
+  response-এর id createdPatientId variable-এ সেভ হয় -- পরের দুটো রিকোয়েস্ট
+  (read-back, delete) এটা ব্যবহার করবে। ক্রমানুসারে রান করুন: ১, ২, ৩।
+}

@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "FHIR_CORE",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

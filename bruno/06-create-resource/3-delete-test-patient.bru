@@ -1,0 +1,16 @@
+meta {
+  name: Delete Test Patient
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{hapiBaseUrl}}/Patient/{{createdPatientId}}
+  body: none
+  auth: none
+}
+
+docs {
+  পরিষ্কার করার ধাপ -- টেস্ট রিসোর্সটা মুছে ফেলে, যাতে শেয়ার করা পাবলিক
+  sandbox-এ অপ্রয়োজনীয় টেস্ট ডেটা জমা না থাকে। সফল হলে status 200 বা 204 আসবে।
+}

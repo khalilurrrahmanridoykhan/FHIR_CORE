@@ -1,0 +1,20 @@
+meta {
+  name: Resolve Patient Reference
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{smartBaseUrl}}/{{refResourceType}}/{{refId}}
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+docs {
+  আগের রিকোয়েস্ট ("Get an Immunization") থেকে পাওয়া refResourceType/refId
+  variable ব্যবহার করে পুরো Patient resource ফেরত আনে -- এটাই "reference resolve করা"।
+}

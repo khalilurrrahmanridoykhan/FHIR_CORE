@@ -1,0 +1,17 @@
+meta {
+  name: Fetch IMMZ.Immunization StructureDefinition
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://worldhealthorganization.github.io/smart-immunizations/StructureDefinition-IMMZ.Immunization.json
+  body: none
+  auth: none
+}
+
+docs {
+  এটা WHO-এর নিজের IG-এর machine-readable profile, সরাসরি fetch করা --
+  response-এর differential.element array-এ প্রতিটা ফিল্ডের path, min/max
+  (cardinality) পাওয়া যাবে। যেখান থেকে exercise.mjs-এর sample element-গুলো নেওয়া হয়েছে।
+}

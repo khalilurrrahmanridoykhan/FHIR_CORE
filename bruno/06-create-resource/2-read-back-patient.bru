@@ -1,0 +1,20 @@
+meta {
+  name: Read Back Patient
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{hapiBaseUrl}}/Patient/{{createdPatientId}}
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+docs {
+  আগের রিকোয়েস্ট-এ তৈরি হওয়া Patient-টাই আবার পড়ে, নিশ্চিত করার জন্য যে
+  সত্যিই সার্ভারে সেভ হয়েছে।
+}

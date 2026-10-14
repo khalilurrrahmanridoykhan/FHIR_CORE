@@ -1,0 +1,20 @@
+meta {
+  name: Get Patient by ID
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{hapiBaseUrl}}/Patient/36149
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+docs {
+  ধাপ ১ -- exercise.mjs-এর fetch কলটাই, এখানে কোড ছাড়া রান করে response দেখুন।
+  Bruno-তে "Send" চাপার পর ডান পাশে পুরো JSON response, status code, এবং headers দেখতে পাবেন।
+}

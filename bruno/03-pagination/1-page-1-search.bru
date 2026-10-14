@@ -1,0 +1,25 @@
+meta {
+  name: Page 1 - Search Immunizations
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{smartBaseUrl}}/Immunization?_count=2
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+script:post-response {
+  const nextLink = res.body.link?.find((l) => l.relation === "next");
+  bru.setVar("nextPageUrl", nextLink ? nextLink.url : "");
+}
+
+docs {
+  এই রিকোয়েস্টটা প্রথমে চালান। এটা response-এর link[] array থেকে "next" URL বের করে
+  nextPageUrl নামের একটা variable-এ সেভ করে -- পরের রিকোয়েস্ট ("Page 2") সেটা ব্যবহার করবে।
+}

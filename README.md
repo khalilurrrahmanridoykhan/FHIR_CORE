@@ -33,6 +33,10 @@ Every exercise runs against a public FHIR test sandbox:
 
 No real patient data is used anywhere in this repo.
 
+## Interactive testing with Bruno
+
+Each exercise's HTTP calls are also available as a [Bruno](https://www.usebruno.com) collection under [`bruno/`](bruno) -- open that folder in the Bruno app, select the **Sandbox** environment, and run requests without writing any code first. See [`bruno/README.md`](bruno/README.md) for details.
+
 ## License
 
 MIT -- see [LICENSE](LICENSE).

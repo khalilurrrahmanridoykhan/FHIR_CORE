@@ -1,0 +1,28 @@
+meta {
+  name: Get an Immunization
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{smartBaseUrl}}/Immunization?_count=1
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/fhir+json
+}
+
+script:post-response {
+  const imm = res.body.entry[0].resource;
+  const [resourceType, id] = imm.patient.reference.split("/");
+  bru.setVar("refResourceType", resourceType);
+  bru.setVar("refId", id);
+}
+
+docs {
+  এটা আগে রান করুন। এটা প্রথম Immunization-এর patient.reference পড়ে
+  refResourceType আর refId variable-এ ভেঙে রাখে -- পরের রিকোয়েস্ট সেটা দিয়ে
+  আসল Patient resource fetch করবে।
+}
