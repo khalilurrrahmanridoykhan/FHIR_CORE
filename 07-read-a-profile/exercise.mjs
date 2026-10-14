@@ -10,14 +10,10 @@ const differentialElements = [
 ];
 
 function main() {
-  // TODO 1: filter differentialElements -- min >= 1 means required
-  // const requiredElements = differentialElements.filter((el) => el.min >= 1)
+  const requiredElements = differentialElements.filter((el) => el.min >= 1);
 
-  // TODO 2: print the path of each required element
-  // requiredElements.forEach((el) => console.log(el.path))
-
-  // TODO 3: also print how many required fields there are in total
-  // console.log("total required:", requiredElements.length)
+  requiredElements.forEach((el) => console.log(el.path));
+  console.log("total required:", requiredElements.length);
 }
 
 main();
