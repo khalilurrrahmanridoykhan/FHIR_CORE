@@ -15,8 +15,8 @@ headers {
 }
 
 docs {
-  এটা আগের রিকোয়েস্ট ("Page 1") থেকে পাওয়া nextPageUrl variable ব্যবহার করে --
-  তাই "Page 1" আগে একবার রান করা লাগবে, নাহলে এই URL খালি থাকবে।
-  লক্ষ্য করুন -- এই URL-এ "Immunization" path নেই, শুধু query parameter -- এটাই
-  README-তে উল্লেখিত real pagination bug-এর মূল কারণ।
+  This uses the nextPageUrl variable set by the previous request ("Page 1") --
+  so run "Page 1" once first, or this URL will be empty.
+  Notice -- this URL has no "Immunization" path, just query parameters -- this is
+  exactly the real pagination bug described in the README.
 }

@@ -7,9 +7,9 @@ const testPatient = {
 };
 
 async function main() {
-  // TODO 1: POST দিয়ে testPatient তৈরি করুন
-  // fetch করার সময় method: "POST", headers: { "Content-Type": "application/fhir+json" },
-  // body: JSON.stringify(testPatient) দিতে হবে
+  // TODO 1: create testPatient via POST
+  // when calling fetch, pass method: "POST", headers: { "Content-Type": "application/fhir+json" },
+  // body: JSON.stringify(testPatient)
   // const createResponse = await fetch(`${BASE_URL}/Patient`, {
   //   method: "POST",
   //   headers: { "Content-Type": "application/fhir+json" },
@@ -18,11 +18,11 @@ async function main() {
   // const created = await createResponse.json()
   // console.log("created with id:", created.id)
 
-  // TODO 2: created.id দিয়ে GET করে আবার পড়ুন
+  // TODO 2: GET it back using created.id
   // const readBack = await (await fetch(`${BASE_URL}/Patient/${created.id}`)).json()
   // console.log("read back name:", readBack.name)
 
-  // TODO 3: created.id দিয়ে DELETE করে পরিষ্কার করুন
+  // TODO 3: DELETE it using created.id, to clean up
   // const deleteResponse = await fetch(`${BASE_URL}/Patient/${created.id}`, { method: "DELETE" })
   // console.log("delete status:", deleteResponse.status)
 }

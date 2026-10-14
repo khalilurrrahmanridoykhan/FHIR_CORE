@@ -22,7 +22,7 @@ script:post-response {
 }
 
 docs {
-  এটা আগে রান করুন। এটা প্রথম Immunization-এর patient.reference পড়ে
-  refResourceType আর refId variable-এ ভেঙে রাখে -- পরের রিকোয়েস্ট সেটা দিয়ে
-  আসল Patient resource fetch করবে।
+  Run this one first. It reads the first Immunization's patient.reference and
+  splits it into refResourceType/refId variables -- the next request uses those
+  to fetch the actual Patient resource.
 }

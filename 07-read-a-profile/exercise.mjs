@@ -1,4 +1,4 @@
-// IMMZ.Immunization প্রোফাইলের differential.element-এর একটা বাস্তব, সরলীকৃত অংশ
+// A real, simplified slice of the IMMZ.Immunization profile's differential.element
 const differentialElements = [
   { path: "Immunization.status", min: 1, max: "1" },
   { path: "Immunization.vaccineCode", min: 1, max: "1" },
@@ -10,13 +10,13 @@ const differentialElements = [
 ];
 
 function main() {
-  // TODO 1: differentialElements filter করুন -- min >= 1 মানে required
+  // TODO 1: filter differentialElements -- min >= 1 means required
   // const requiredElements = differentialElements.filter((el) => el.min >= 1)
 
-  // TODO 2: প্রতিটা required element-এর path প্রিন্ট করুন
+  // TODO 2: print the path of each required element
   // requiredElements.forEach((el) => console.log(el.path))
 
-  // TODO 3: মোট কতগুলো required ফিল্ড, সেটাও প্রিন্ট করুন
+  // TODO 3: also print how many required fields there are in total
   // console.log("total required:", requiredElements.length)
 }
 
