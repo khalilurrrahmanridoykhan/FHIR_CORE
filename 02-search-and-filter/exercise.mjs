@@ -1,16 +1,15 @@
 const BASE_URL = "https://r4.smarthealthit.org";
 
 async function main() {
-  // TODO 1: call fetch(`${BASE_URL}/Immunization?_count=5`)
+  const response = await fetch(`${BASE_URL}/Immunization?_count=5`);
+  const bundle = await response.json();
 
-  // TODO 2: read the Bundle with response.json()
+  console.log("total entries on this page:", bundle.entry?.length ?? 0);
 
-  // TODO 3: bundle.entry (an array) has .resource on each item -- use forEach
-  //         to print each one's vaccineCode and occurrenceDateTime
-  // bundle.entry.forEach((entry) => {
-  //   const imm = entry.resource
-  //   console.log(imm.vaccineCode, imm.occurrenceDateTime)
-  // })
+  bundle.entry?.forEach((entry) => {
+    const imm = entry.resource;
+    console.log(imm.vaccineCode, imm.occurrenceDateTime);
+  });
 }
 
 main();
