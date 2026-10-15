@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FHIR Profile Validator</title>
+<style>
+  :root {
+    --bg: #f7f7f8;
+    --panel: #ffffff;
+    --border: #d9dce1;
+    --text: #1f2328;
+    --muted: #5b6270;
+    --accent: #2563eb;
+    --ok: #15803d;
+    --ok-bg: #eafaf1;
+    --missing: #b91c1c;
+    --missing-bg: #fdecec;
+    --skip: #926a00;
+    --skip-bg: #fff6e0;
+    --mono: "SF Mono", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15181d;
+      --panel: #1d2127;
+      --border: #30353d;
+      --text: #e6e8eb;
+      --muted: #9aa1ac;
+      --accent: #5b9dff;
+      --ok: #4ade80;
+      --ok-bg: #122a1d;
+      --missing: #f87171;
+      --missing-bg: #2c1515;
+      --skip: #facc15;
+      --skip-bg: #2b2311;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+  }
+  header {
+    padding: 24px 16px 8px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  header h1 { margin: 0 0 4px; font-size: 1.5rem; }
+  header p { margin: 0; color: var(--muted); }
+  header a { color: var(--accent); }
+  main { max-width: 960px; margin: 0 auto; padding: 16px; }
+  .inputs { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  @media (min-width: 720px) {
+    .inputs { grid-template-columns: 1fr 1fr; }
+  }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .panel h2 { margin: 0 0 8px; font-size: 1rem; }
+  .panel .examples { margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .url-row { display: flex; gap: 6px; margin-bottom: 8px; }
+  input[type="url"] {
+    flex: 1;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 0.85rem;
+  }
+  textarea {
+    width: 100%;
+    min-height: 180px;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    resize: vertical;
+  }
+  button {
+    padding: 7px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 0.82rem;
+  }
+  button:hover { border-color: var(--accent); }
+  button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-size: 0.95rem;
+    padding: 10px 20px;
+  }
+  .actions { margin: 18px 0; display: flex; align-items: center; gap: 12px; }
+  #status { color: var(--muted); font-size: 0.85rem; }
+  #status.error { color: var(--missing); }
+  #report { display: flex; flex-direction: column; gap: 10px; }
+  .summary {
+    display: flex;
+    gap: 16px;
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+  }
+  .summary span { padding: 4px 10px; border-radius: 6px; }
+  .rule-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+  .rule-list li {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    padding: 6px 10px;
+    border-radius: 6px;
+    word-break: break-all;
+  }
+  .rule-list.present li { background: var(--ok-bg); color: var(--ok); }
+  .rule-list.missing li { background: var(--missing-bg); color: var(--missing); }
+  .rule-list.skipped li { background: var(--skip-bg); color: var(--skip); }
+  footer {
+    max-width: 960px;
+    margin: 24px auto 40px;
+    padding: 0 16px;
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>FHIR Profile Validator</h1>
+  <p>
+    Paste or fetch a FHIR <code>StructureDefinition</code> profile and a resource, and see which of the
+    profile's required fields and extensions are actually present. Runs entirely in your browser —
+    nothing is sent to a server. Part of
+    <a href="https://github.com/khalilurrrahmanridoykhan/FHIR_CORE" target="_blank" rel="noopener">FHIR_CORE</a>.
+  </p>
+</header>
+
+<main>
+  <section class="inputs">
+    <div class="panel">
+      <h2>Profile (StructureDefinition)</h2>
+      <div class="examples">
+        <button data-example="profile">Load WHO Immunization IG profile</button>
+      </div>
+      <div class="url-row">
+        <input type="url" id="profile-url" placeholder="https://.../StructureDefinition-....json" />
+        <button data-fetch="profile">Fetch</button>
+      </div>
+      <textarea id="profile-text" placeholder="...or paste a StructureDefinition JSON here"></textarea>
+    </div>
+
+    <div class="panel">
+      <h2>Resource</h2>
+      <div class="examples">
+        <button data-example="valid">Load valid example</button>
+        <button data-example="missing">Load example missing a field</button>
+      </div>
+      <div class="url-row">
+        <input type="url" id="resource-url" placeholder="https://.../Immunization/123" />
+        <button data-fetch="resource">Fetch</button>
+      </div>
+      <textarea id="resource-text" placeholder="...or paste a resource JSON here"></textarea>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button class="primary" id="validate-btn">Validate</button>
+    <span id="status"></span>
+  </div>
+
+  <section id="report"></section>
+</main>
+
+<footer>
+  Only works against servers that allow cross-origin requests from a browser (the public HAPI and
+  SMART Health IT sandboxes used throughout this repo both do). See the
+  <a href="https://github.com/khalilurrrahmanridoykhan/FHIR_CORE/tree/main/profile-validator" target="_blank" rel="noopener">CLI version</a>
+  for scope and limitations — this page runs the exact same validation code.
+</footer>
+
+<script type="module" src="app.mjs"></script>
+</body>
+</html>

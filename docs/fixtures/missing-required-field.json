@@ -1,0 +1,29 @@
+{
+  "resourceType": "Immunization",
+  "id": "missing-protocol-applied",
+  "status": "completed",
+  "vaccineCode": {
+    "coding": [{ "system": "http://hl7.org/fhir/sid/cvx", "code": "19", "display": "BCG" }]
+  },
+  "patient": { "reference": "Patient/pt-001" },
+  "occurrenceDateTime": "2024-03-10",
+  "extension": [
+    {
+      "url": "http://smart.who.int/immunizations/StructureDefinition/IMMZVaccineBrand",
+      "valueCodeableConcept": { "text": "BCG Vaccine SSI" }
+    },
+    {
+      "url": "http://smart.who.int/immunizations/StructureDefinition/IMMZMarketAuthorization",
+      "valueString": "Serum Institute of India"
+    }
+  ],
+  "location": {
+    "reference": "Location/loc-001",
+    "extension": [
+      {
+        "url": "http://smart.who.int/immunizations/StructureDefinition/IMMZCountryOfVaccination",
+        "valueCode": "BD"
+      }
+    ]
+  }
+}
