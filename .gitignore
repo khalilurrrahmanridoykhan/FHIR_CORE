@@ -1,5 +1,9 @@
 node_modules/
 .DS_Store
 
+# A separate repo (its own GitHub remote, own history) kept here locally
+# for convenience -- never tracked by this repo.
+dhis2-fhir-aggregate-pipeline/
+
 # Worked solutions are kept local, not published -- exercises stay unsolved for others
 solution.mjs
