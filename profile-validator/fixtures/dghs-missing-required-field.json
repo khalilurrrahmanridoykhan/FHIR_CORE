@@ -1,0 +1,11 @@
+{
+  "resourceType": "Immunization",
+  "id": "dghs-sample-2-missing-identifier",
+  "status": "completed",
+  "vaccineCode": {
+    "coding": [{ "system": "http://hl7.org/fhir/sid/cvx", "code": "19", "display": "BCG" }]
+  },
+  "patient": { "reference": "Patient/pt-dghs-002" },
+  "encounter": { "reference": "Encounter/enc-dghs-002" },
+  "occurrenceDateTime": "2026-10-21"
+}

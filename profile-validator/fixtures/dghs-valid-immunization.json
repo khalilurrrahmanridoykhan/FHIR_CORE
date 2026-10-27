@@ -1,0 +1,14 @@
+{
+  "resourceType": "Immunization",
+  "id": "dghs-sample-1",
+  "status": "completed",
+  "identifier": [
+    { "system": "https://fhir.dghs.gov.bd/identifiers/immunization", "value": "IMMZ-2026-000123" }
+  ],
+  "vaccineCode": {
+    "coding": [{ "system": "http://hl7.org/fhir/sid/cvx", "code": "19", "display": "BCG" }]
+  },
+  "patient": { "reference": "Patient/pt-dghs-001" },
+  "encounter": { "reference": "Encounter/enc-dghs-001" },
+  "occurrenceDateTime": "2026-10-20"
+}

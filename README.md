@@ -41,12 +41,12 @@ Each exercise's HTTP calls are also available as a [Bruno](https://www.usebruno.
 
 Project ideas that build directly on these eight exercises, roughly ordered from closest-to-this-curriculum to more ambitious:
 
-1. **A mini FHIR profile validator** -- take any resource plus a StructureDefinition JSON and report which required fields are missing. Extends step 7's `min >= 1` check into something reusable instead of a hardcoded list.
-2. **Extend a mapping tool to a second resource type** -- e.g. `Observation` (lab results) alongside `Immunization`. Forces reading a new profile and handling a different value shape (`valueQuantity`/`valueCodeableConcept` instead of `vaccineCode`).
-3. **A FHIR -> DHIS2 aggregate pipeline** -- fetch a batch of resources, count them by category and period, and push totals to DHIS2's Aggregate API (`dataValueSets`) instead of the Tracker API. A genuinely different DHIS2 data model (aggregate vs. individual-level).
-4. **A real SMART on FHIR login flow** -- use a public launcher (e.g. [launch.smarthealthit.org](https://launch.smarthealthit.org)) to build the actual OAuth2 redirect -> token exchange -> authenticated call. Nothing in this curriculum implements auth; this closes that gap.
-5. **A national-IG conformance checker** -- combine #1 with any country's published IG (fetch its StructureDefinition, validate a sample resource against it).
-6. **A minimal FHIR server from scratch** -- implement just `Patient` (`GET`/`POST`/search returning a proper `Bundle`) in a small HTTP server. Everything above is the client side; this is the server side.
+1. ✅ **A mini FHIR profile validator** -- take any resource plus a StructureDefinition JSON and report which required fields are missing. Extends step 7's `min >= 1` check into something reusable instead of a hardcoded list. Done: [`profile-validator/`](profile-validator), CLI + browser demo, live-verified against the real WHO IG.
+2. **Extend a mapping tool to a second resource type** -- e.g. `Observation` (lab results) alongside `Immunization`. Forces reading a new profile and handling a different value shape (`valueQuantity`/`valueCodeableConcept` instead of `vaccineCode`). Planned (real codebase investigated, implementation plan written) but not yet built.
+3. ✅ **A FHIR -> DHIS2 aggregate pipeline** -- fetch a batch of resources, count them by category and period, and push totals to DHIS2's Aggregate API (`dataValueSets`) instead of the Tracker API. A genuinely different DHIS2 data model (aggregate vs. individual-level). Done, as its own repo: [`dhis2-fhir-aggregate-pipeline`](https://github.com/khalilurrrahmanridoykhan/dhis2-fhir-aggregate-pipeline), live-verified against a real public DHIS2 instance.
+4. **A real SMART on FHIR login flow** -- use a public launcher (e.g. [launch.smarthealthit.org](https://launch.smarthealthit.org)) to build the actual OAuth2 redirect -> token exchange -> authenticated call. Nothing in this curriculum implements auth; this closes that gap. Not started.
+5. ✅ **A national-IG conformance checker** -- combine #1 with any country's published IG (fetch its StructureDefinition, validate a sample resource against it). Done: `profile-validator` was already generic, now proven against Bangladesh DGHS's real `bd-immunization` profile with zero code changes -- see [`profile-validator/README.md`](profile-validator/README.md#verified-against-a-second-independent-national-ig).
+6. **A minimal FHIR server from scratch** -- implement just `Patient` (`GET`/`POST`/search returning a proper `Bundle`) in a small HTTP server. Everything above is the client side; this is the server side. Not started.
 
 ## License
 

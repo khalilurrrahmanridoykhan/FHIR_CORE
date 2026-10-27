@@ -52,4 +52,27 @@ console.log("PASS: parseProfile extracts exactly 5 required rules from the real 
   console.log("PASS: a missing required extension (vaccineBrand) is correctly flagged");
 }
 
+// A second, independent national IG (Bangladesh DGHS's real bd-immunization
+// profile, not WHO's) -- confirms parseProfile/validate generalize to a
+// profile from a different publisher, with zero code changes.
+{
+  const dghsProfile = readFixture("dghs-bd-immunization-profile.json");
+  const dghsValid = readFixture("dghs-valid-immunization.json");
+  const dghsMissing = readFixture("dghs-missing-required-field.json");
+
+  const dghsRules = parseProfile(dghsProfile);
+  assert.equal(dghsRules.length, 2, `expected 2 required rules from the real DGHS profile, got ${dghsRules.length}`);
+  assert.ok(dghsRules.some((r) => r.path === "identifier"), "expected 'identifier' to be a required rule");
+  assert.ok(dghsRules.some((r) => r.path === "encounter"), "expected 'encounter' to be a required rule");
+
+  const { missing: dghsValidMissing } = validate(dghsValid, dghsRules);
+  assert.equal(dghsValidMissing.length, 0, "expected the valid DGHS resource to have 0 missing");
+
+  const { missing: dghsIncompleteMissing } = validate(dghsMissing, dghsRules);
+  const dghsMissingPaths = dghsIncompleteMissing.map((r) => r.path);
+  assert.ok(dghsMissingPaths.includes("identifier"), "expected the DGHS resource's missing identifier to be flagged");
+
+  console.log("PASS: parseProfile/validate work unmodified against a second, independent national IG (DGHS bd-immunization)");
+}
+
 console.log("\nAll profile-validator tests passed.");

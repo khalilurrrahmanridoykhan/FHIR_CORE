@@ -1,6 +1,6 @@
 # Mini FHIR Profile Validator
 
-Takes any FHIR resource and a StructureDefinition profile, and reports which of the profile's **required** fields and extensions are actually present on that resource.
+Takes any FHIR resource and a StructureDefinition profile, and reports which of the profile's **required** fields and extensions are actually present on that resource -- including as a **national-IG conformance checker**: it's already generic across publishers, not hardcoded to WHO's IG. See "Verified against a second, independent national IG" below.
 
 Extends [step 7](../07-read-a-profile)'s `min >= 1` filtering (which just listed required field names from a hardcoded array) into something that checks a real resource against a real profile.
 
@@ -43,6 +43,16 @@ Running `node validate.test.mjs` against the real WHO IMMZ.Immunization profile 
 - 2 root-level extensions (`vaccineBrand`, `marketAuthorizationHolder`)
 - 1 nested extension (`location`'s `countryOfVaccination`)
 - 2 plain fields (`protocolApplied`, `protocolApplied.series`)
+
+## Verified against a second, independent national IG
+
+Idea #5 from this repo's "What's next" list was "a national-IG conformance checker -- combine #1 with any country's published IG." The tool already does this, since its CLI was never hardcoded to WHO's profile -- what hadn't been done was actually proving it against a real IG from a different publisher. Fetched the real `bd-immunization` profile from Bangladesh's DGHS FHIR Core IG (`https://fhir.dghs.gov.bd/core/StructureDefinition-bd-immunization.json`) and ran it through `parseProfile`/`validate` **unmodified**:
+
+- Its `differential.element` has 18 entries but **no slicing or extensions at all** -- a much simpler shape than WHO's profile. Only 2 fields are actually required: `identifier` and `encounter`.
+- `node validate.mjs fixtures/dghs-bd-immunization-profile.json fixtures/dghs-valid-immunization.json` correctly reports both present; the deliberately-incomplete fixture correctly reports `identifier` missing (exit code `1`).
+- DGHS's own public sandbox (`sandbox.fhir.dghs.gov.bd/fhir`) returned zero real Immunization resources to test against (`"total": 0`) -- same situation as the WHO-profile fixtures: `fixtures/dghs-valid-immunization.json` and `fixtures/dghs-missing-required-field.json` are honest, hand-built fixtures, not real patient data, built specifically because no real IG-conformant data was available to pull.
+
+This is now a permanent regression case in `validate.test.mjs`, not just a one-off manual check.
 
 ## Scope -- what this does and doesn't check
 
